@@ -7,29 +7,53 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.z.ngxcfg.NgxCfgService;
+import com.z.ngxcfg.NgxService;
+import com.z.ngxcfg.upstream.NgxServerCfg;
 import com.z.ngxcfg.upstream.NgxUpStreamCfg;
 
 /**
  * @author Administrator
- *
+ * 
  */
 public class NgxCfgServiceImpl implements NgxCfgService {
 
-    private static final String upsteramCfg = "/up.conf";
-    private static final String locationCfg = "/lo.conf";
+    private String upsteramCfgName = "/up.conf";
+    private String locationCfgName = "/lo.conf";
 
-   
+    private String filePath;
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public void setUpsteramCfgName(String upsteramCfgName) {
+        if (!upsteramCfgName.startsWith("/")) {
+            upsteramCfgName = "/" + upsteramCfgName;
+        }
+        this.upsteramCfgName = upsteramCfgName;
+    }
+
+    public void setLocationCfgName(String locationCfgName) {
+        if (!locationCfgName.startsWith("/")) {
+            locationCfgName = "/" + locationCfgName;
+        }
+        this.locationCfgName = locationCfgName;
+    }
+
     @Override
-    public void writeUpStreamCfg(String filePath, List<NgxUpStreamCfg> ngxUpStreamCfgs) throws IOException {
+    public void writeUpStreamCfg(List<NgxUpStreamCfg> ngxUpStreamCfgs) throws IOException {
         if (ngxUpStreamCfgs == null) {
             return;
         }
         filePath = checkFilepath(filePath);
         checkDirExists(filePath);
-        File f = new File(filePath + upsteramCfg);
+        File f = new File(filePath + upsteramCfgName);
         /*
          * if (f.exists()) { f.renameTo(new
          * File(filePath,f.getName()+"."+System.currentTimeMillis())); }
@@ -70,21 +94,20 @@ public class NgxCfgServiceImpl implements NgxCfgService {
     }
 
     private void backFile(File f) {
-        if (f.exists()&&f.isFile()) {
+        if (f.exists() && f.isFile()) {
             f.renameTo(new File(f.getParent(), f.getName() + "." + System.currentTimeMillis()));
         }
     }
 
-  
     @Override
-    public void writeLocationsCfg(String filePath, List<String> names) throws IOException {
+    public void writeLocationsCfg(List<String> names) throws IOException {
 
         if (names == null) {
             return;
         }
         filePath = checkFilepath(filePath);
         checkDirExists(filePath);
-        File f = new File(filePath + locationCfg);
+        File f = new File(filePath + locationCfgName);
         backFile(f);
         FileOutputStream fos = new FileOutputStream(f);
         OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
@@ -125,7 +148,5 @@ public class NgxCfgServiceImpl implements NgxCfgService {
         locationOsw.flush();
 
     }
-
-
 
 }

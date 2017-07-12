@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.z.ngxcfg;
+package com.z.ngxcfg.support;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,16 +20,17 @@ import com.z.ngxcfg.upstream.NgxUpStreamCfg;
  */
 public class NginxCfgServiceImplTest {
 
-    static NgxCfgService ngs;
+    static NgxCfgServiceImpl ngs;
 
     @BeforeClass
     public static void init() {
         ngs = new NgxCfgServiceImpl();
+        ngs.setFilePath("C:/Users/Administrator/Desktop/nginx-1.10.3/");
     }
 
     @Test
     public void writeUpStreamCfg() {
-        String filePath = "C:/Users/Administrator/Desktop/nginx-1.10.3/";
+   
         NgxUpStreamCfg c1 = initStreamCfg("c1");
         NgxUpStreamCfg c2 = initStreamCfg("c2");
         NgxUpStreamCfg c3 = initStreamCfg("c3");
@@ -40,7 +41,7 @@ public class NginxCfgServiceImplTest {
         ngxUpStreamCfgs.add(c3);
         ngxUpStreamCfgs.add(c4);
         try {
-            ngs.writeUpStreamCfg(filePath, ngxUpStreamCfgs);
+            ngs.writeUpStreamCfg(ngxUpStreamCfgs);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -59,7 +60,7 @@ public class NginxCfgServiceImplTest {
        // ngxUpStreamCfgs.add("c3");
         ngxUpStreamCfgs.add("c4");
         try {
-            ngs.writeLocationsCfg(filePath, ngxUpStreamCfgs);
+            ngs.writeLocationsCfg( ngxUpStreamCfgs);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

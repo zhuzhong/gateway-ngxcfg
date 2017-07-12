@@ -8,6 +8,7 @@ import java.util.List;
 import org.I0Itec.zkclient.IZkChildListener;
 import org.I0Itec.zkclient.ZkClient;
 
+import com.z.ngxcfg.NgxCfgService;
 import com.z.ngxcfg.NgxService;
 import com.z.ngxcfg.ServerMonitorService;
 
@@ -28,14 +29,10 @@ public class ServerMonitorServiceImpl implements ServerMonitorService {
 	 * 
 	 * private String ip; private String port;
 	 */
+	private ZkClient zkClient = null;
+	private String SERVICE_PATH = null;
 
-	@Override
-	public void serverDynamicExpansion() {
-		/*
-		 * 拉取注册中心服务,这个与gateway-dubbox的虚拟服务注册相对应，没有必在像dubbox那样将其注册搞的那么复杂，
-		 * 这里主要是为了传递nginx配置信息所必须的信息
-		 */
-
+	public void init() {
 		if (rootPath == null) {
 			throw new RuntimeException("rootpath must not be null!");
 		}
@@ -43,14 +40,22 @@ public class ServerMonitorServiceImpl implements ServerMonitorService {
 			rootPath = "/" + rootPath;
 		}
 
-		String SERVICE_PATH = rootPath + GATEWAY;// 服务节点路径
+		SERVICE_PATH = rootPath + GATEWAY;// 服务节点路径
+		zkClient = new ZkClient(zkServers);
 
-		ZkClient zkClient = new ZkClient(zkServers);
+	}
+
+	@Override
+	public void serverDynamicExpansion() {
+		/*
+		 * 拉取注册中心服务,这个与gateway-dubbox的虚拟服务注册相对应，没有必在像dubbox那样将其注册搞的那么复杂，
+		 * 这里主要是为了传递nginx配置信息所必须的信息
+		 */
 		boolean serviceExists = zkClient.exists(SERVICE_PATH);
 		if (serviceExists) {
 			List<String> serverList;
 			serverList = zkClient.getChildren(SERVICE_PATH);
-			ngxService.loadBalanceNgx(serverList);
+			ngxService.updateNgxCfg(serverList);
 		} else {
 			throw new RuntimeException("service not exist!");
 		}
@@ -60,15 +65,11 @@ public class ServerMonitorServiceImpl implements ServerMonitorService {
 			// @Override
 			public void handleChildChange(String parentPath,
 					List<String> currentChilds) throws Exception {
-				ngxService.loadBalanceNgx(currentChilds);
+			    ngxService.updateNgxCfg(currentChilds);
 			}
 		});
 
-	
-
 	}
-
-	private NgxService ngxService;
 
 	public void setRootPath(String rootPath) {
 		this.rootPath = rootPath;
@@ -78,8 +79,13 @@ public class ServerMonitorServiceImpl implements ServerMonitorService {
 		this.zkServers = zkServers;
 	}
 
-	public void setNgxService(NgxService ngxService) {
-		this.ngxService = ngxService;
-	}
+	private NgxService ngxService;
 
+    public void setNgxService(NgxService ngxService) {
+        this.ngxService = ngxService;
+    }
+
+	
+
+	
 }
