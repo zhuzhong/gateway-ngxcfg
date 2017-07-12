@@ -10,7 +10,7 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.z.ngxcfg.support.NginxCfgServiceImpl;
+import com.z.ngxcfg.support.NgxCfgServiceImpl;
 import com.z.ngxcfg.upstream.NgxServerCfg;
 import com.z.ngxcfg.upstream.NgxUpStreamCfg;
 
@@ -24,7 +24,7 @@ public class NginxCfgServiceImplTest {
 
     @BeforeClass
     public static void init() {
-        ngs = new NginxCfgServiceImpl();
+        ngs = new NgxCfgServiceImpl();
     }
 
     @Test

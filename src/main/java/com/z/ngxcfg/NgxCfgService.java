@@ -16,5 +16,7 @@ public interface NgxCfgService {
     public void writeUpStreamCfg(String filePath, List<NgxUpStreamCfg> ngxUpStreamCfgs) throws IOException;
 
     public void writeLocationsCfg(String filePath, List<String> contexts) throws IOException;
+    
+   
 
 }

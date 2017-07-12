@@ -20,6 +20,23 @@ public class NgxServerCfg implements Serializable {
      */
     private static final long serialVersionUID = 8018367777008291947L;
 
+    
+    private String address;
+    private Integer weight;
+    private Integer maxConns;
+    private Integer maxFails;
+    private Integer failTimeout;// 单位秒 形式 fail_timeout=30s
+    private boolean backup;
+    private boolean down;
+    private boolean resolve;
+    private String route;
+
+    private String service;
+
+    private Integer slowStart;// 单位秒 15s
+
+    
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -94,7 +111,7 @@ public class NgxServerCfg implements Serializable {
         return sb.toString();
     }
 
-    private String address;
+    
 
     public static final String para_weight = "weight";
     public static final String para_max_conns = "max_conns";
@@ -107,19 +124,7 @@ public class NgxServerCfg implements Serializable {
     public static final String para_service = "service";
     public static final String para_slow_start = "slow_start";
 
-    private Integer weight;
-    private Integer maxConns;
-    private Integer maxFails;
-    private Integer failTimeout;// 单位秒 形式 fail_timeout=30s
-    private boolean backup;
-    private boolean down;
-    private boolean resolve;
-    private String route;
-
-    private String service;
-
-    private Integer slowStart;// 单位秒 15s
-
+   
     public void setAddress(String address) {
         this.address = address;
     }

@@ -16,14 +16,12 @@ import com.z.ngxcfg.upstream.NgxUpStreamCfg;
  * @author Administrator
  *
  */
-public class NginxCfgServiceImpl implements NgxCfgService {
+public class NgxCfgServiceImpl implements NgxCfgService {
 
     private static final String upsteramCfg = "/up.conf";
     private static final String locationCfg = "/lo.conf";
 
-    /* (non-Javadoc)
-     * @see com.z.ngxcfg.support.NginxCfgService#writeUpStreamCfg(java.lang.String, java.util.List)
-     */
+   
     @Override
     public void writeUpStreamCfg(String filePath, List<NgxUpStreamCfg> ngxUpStreamCfgs) throws IOException {
         if (ngxUpStreamCfgs == null) {
@@ -77,9 +75,7 @@ public class NginxCfgServiceImpl implements NgxCfgService {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.z.ngxcfg.support.NginxCfgService#writeLocationsCfg(java.lang.String, java.util.List)
-     */
+  
     @Override
     public void writeLocationsCfg(String filePath, List<String> names) throws IOException {
 
@@ -129,5 +125,7 @@ public class NginxCfgServiceImpl implements NgxCfgService {
         locationOsw.flush();
 
     }
+
+
 
 }

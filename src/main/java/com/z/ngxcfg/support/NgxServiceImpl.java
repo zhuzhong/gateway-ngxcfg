@@ -3,32 +3,87 @@
  */
 package com.z.ngxcfg.support;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.z.ngxcfg.NgxCfgService;
 import com.z.ngxcfg.NgxService;
+import com.z.ngxcfg.upstream.NgxServerCfg;
+import com.z.ngxcfg.upstream.NgxUpStreamCfg;
 
 /**
- * @author Administrator
- *
+ * @author sunff
+ * 
  */
-public class NgxServiceImpl implements NgxService{
+public class NgxServiceImpl implements NgxService {
 
-    @Override
-    public void serverDynamicExpansion() {
-        /*
-         * 拉取注册中心服务,这个与gateway-dubbox的虚拟服务注册相对应，没有必在像dubbox那样将其注册搞的那么复杂，
-         * 这里主要是为了传递nginx配置信息所必须的信息
-         */
-        
-        /**
-         * 所遵守的注册格式 rootpath(持久节点）/provider （持久节点）/服务信息（ip:port#context）(临时节点 ）
-         */
-        
-        
-        
-       //生成配置文件
-        
-        
-        //重启 nginx
-        
-    }
+	private String filePath;
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	@Override
+	public void loadBalanceNgx(List<String> servers) {
+		/**
+		 * 所遵守的注册格式 rootpath(持久节点）/provider （持久节点）/服务信息（ip:port#context）(临时节点 ）
+		 */
+		if (servers == null) {
+			return;
+		}
+
+		Map<String, NgxUpStreamCfg> ngxUpStreamCfgs = new HashMap<>();
+		List<String> locationContexts = new ArrayList<>();
+
+		for (String server : servers) {
+			String[] serArray = server.split("#");
+			String host = serArray[0];
+			String context = serArray[1];
+			// 设置location
+			if (!locationContexts.contains(context)) {
+				locationContexts.add(context);
+			}
+
+			// 设置upstream
+			NgxUpStreamCfg n = new NgxUpStreamCfg();
+			n.setName(context);
+			if (ngxUpStreamCfgs.get(context) == null) {
+				ngxUpStreamCfgs.put(context, n);
+			} else {
+				n = ngxUpStreamCfgs.get(context);
+			}
+
+			NgxServerCfg serverCfg = new NgxServerCfg();
+
+			serverCfg.setAddress(host);
+			n.addServer(serverCfg);
+
+		}
+
+		List<NgxUpStreamCfg> list = new ArrayList<>();
+		for (NgxUpStreamCfg key : ngxUpStreamCfgs.values()) {
+			list.add(key);
+		}
+		// 生成配置文件
+		try {
+			ngxCfgService.writeLocationsCfg(filePath, locationContexts);
+			ngxCfgService.writeUpStreamCfg(filePath, list);
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+		
+		// 重启 nginx
+
+	}
+
+	private NgxCfgService ngxCfgService;
+
+	public void setNgxCfgService(NgxCfgService ngxCfgService) {
+		this.ngxCfgService = ngxCfgService;
+	}
 
 }
