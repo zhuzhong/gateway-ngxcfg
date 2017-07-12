@@ -19,9 +19,16 @@
 
 		<zkclient_version>0.1</zkclient_version>
 		<zookeeper_version>3.4.6</zookeeper_version>
+		<spring.version>4.2.1.RELEASE</spring.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.zookeeper</groupId>
 			<artifactId>zookeeper</artifactId>
