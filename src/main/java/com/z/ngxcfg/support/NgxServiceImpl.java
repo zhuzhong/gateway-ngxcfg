@@ -28,10 +28,28 @@ public class NgxServiceImpl implements NgxService {
     }
     
     
+    
+    private String shellPath;
+    
+    
+    
+
+    public void setShellPath(String shellPath) {
+        this.shellPath = shellPath;
+    }
+
     @Override
     public void reloadNgxCfg() {
-        System.out.println("这个方法没有实现");
-
+       
+        Process process =null;
+        try {
+            process = Runtime.getRuntime().exec(shellPath);
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            
+        }
+      
     }
 
     @Override

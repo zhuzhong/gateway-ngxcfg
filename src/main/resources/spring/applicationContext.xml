@@ -27,6 +27,7 @@
 
 	<bean id="ngxService" class="com.z.ngxcfg.support.NgxServiceImpl">
 		<property name="ngxCfgService" ref="ngxCfgService"></property>
+		<property name="shellPath" value="${cfg.shellFile}"></property>
 	</bean>
 
 
