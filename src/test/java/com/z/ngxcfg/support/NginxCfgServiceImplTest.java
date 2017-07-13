@@ -52,8 +52,7 @@ public class NginxCfgServiceImplTest {
 
     @Test
     public void writeLocationsCfg(){
-        String filePath = "C:/Users/Administrator/Desktop/nginx-1.10.3";
-
+        
         List<String> ngxUpStreamCfgs = new ArrayList<>();
         ngxUpStreamCfgs.add("c1");
         ngxUpStreamCfgs.add("c2");
