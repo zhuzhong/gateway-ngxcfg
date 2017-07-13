@@ -7,14 +7,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.z.ngxcfg.NgxCfgService;
-import com.z.ngxcfg.NgxService;
-import com.z.ngxcfg.upstream.NgxServerCfg;
 import com.z.ngxcfg.upstream.NgxUpStreamCfg;
 
 /**
