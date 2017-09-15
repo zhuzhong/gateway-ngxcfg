@@ -11,7 +11,7 @@ import com.z.ngxcfg.upstream.NgxUpStreamCfg;
  * @author Administrator
  * 
  */
-public interface NgxCfgService {
+public interface ConfigService {
 
     void writeUpStreamCfg(List<NgxUpStreamCfg> ngxUpStreamCfgs) throws IOException;
 

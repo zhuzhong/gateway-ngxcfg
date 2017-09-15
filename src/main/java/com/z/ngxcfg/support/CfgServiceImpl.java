@@ -9,14 +9,14 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
 
-import com.z.ngxcfg.NgxCfgService;
+import com.z.ngxcfg.ConfigService;
 import com.z.ngxcfg.upstream.NgxUpStreamCfg;
 
 /**
  * @author Administrator
  * 
  */
-public class NgxCfgServiceImpl implements NgxCfgService {
+public class CfgServiceImpl implements ConfigService {
 
     private String upsteramCfgName = "/up.conf";
     private String locationCfgName = "/lo.conf";
@@ -47,13 +47,13 @@ public class NgxCfgServiceImpl implements NgxCfgService {
             return;
         }
         filePath = checkFilepath(filePath);
-        checkDirExists(filePath);
+        mkdirs(filePath);
         File f = new File(filePath + upsteramCfgName);
         /*
          * if (f.exists()) { f.renameTo(new
          * File(filePath,f.getName()+"."+System.currentTimeMillis())); }
          */
-        backFile(f);
+        bakFile(f);
         FileOutputStream fos = new FileOutputStream(f);
         OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
 
@@ -73,7 +73,7 @@ public class NgxCfgServiceImpl implements NgxCfgService {
         return filePath;
     }
 
-    private void checkDirExists(String filepath) {
+    private void mkdirs(String filepath) {
         File f = new File(filepath);
         if (f.exists()) {
             if (f.isDirectory()) {
@@ -88,7 +88,7 @@ public class NgxCfgServiceImpl implements NgxCfgService {
 
     }
 
-    private void backFile(File f) {
+    private void bakFile(File f) {
         if (f.exists() && f.isFile()) {
             f.renameTo(new File(f.getParent(), f.getName() + "." + System.currentTimeMillis()));
         }
@@ -101,9 +101,9 @@ public class NgxCfgServiceImpl implements NgxCfgService {
             return;
         }
         filePath = checkFilepath(filePath);
-        checkDirExists(filePath);
+        mkdirs(filePath);
         File f = new File(filePath + locationCfgName);
-        backFile(f);
+        bakFile(f);
         FileOutputStream fos = new FileOutputStream(f);
         OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
         for (String name : names) {

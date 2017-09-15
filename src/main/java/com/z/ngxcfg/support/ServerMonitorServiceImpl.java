@@ -46,13 +46,13 @@ public class ServerMonitorServiceImpl implements ServerMonitorService {
         SERVICE_PATH = rootPath + GATEWAY;// 服务节点路径
         zkClient = new ZkClient(zkServers);
 
-        serverDynamicExpansion();
+        serverUrlListener();
     }
 
     @Override
-    public void serverDynamicExpansion() {
+    public void serverUrlListener() {
         /*
-         * 拉取注册中心服务,这个与gateway-dubbox的虚拟服务注册相对应，没有必在像dubbox那样将其注册搞的那么复杂，
+         * 拉取注册中心服务,这个与gateway-dubbox的虚拟服务注册相对应，没有必要像dubbox那样将其注册搞的那么复杂，
          * 这里主要是为了传递nginx配置信息所必须的信息
          */
         boolean serviceExists = zkClient.exists(SERVICE_PATH);
@@ -61,7 +61,7 @@ public class ServerMonitorServiceImpl implements ServerMonitorService {
             serverList = zkClient.getChildren(SERVICE_PATH);
             if (serverList != null && serverList.size() > 0) {
                 logger.info("get service...");
-                ngxService.updateNgxCfg(serverList);
+                restartNgx(serverList);
             }else{
                 logger.warn("service not exist!");
             }
@@ -74,12 +74,21 @@ public class ServerMonitorServiceImpl implements ServerMonitorService {
         zkClient.subscribeChildChanges(SERVICE_PATH, new IZkChildListener() {
             // @Override
             public void handleChildChange(String parentPath, List<String> currentChilds) throws Exception {
-                ngxService.updateNgxCfg(currentChilds);
+            	restartNgx(currentChilds);
             }
         });
 
     }
 
+
+    /**
+     * 这里重启ngx,其实主要作的：重新生成新的配置文件，并加载新的配置文件
+     * @param serverUrls
+     */
+    private void restartNgx(List<String> serverUrls) {
+        ngxService.rewriteCfg(serverUrls);
+        ngxService.reloadNgxCfg();
+    }
     public void setRootPath(String rootPath) {
         this.rootPath = rootPath;
     }

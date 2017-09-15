@@ -10,7 +10,7 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.z.ngxcfg.support.NgxCfgServiceImpl;
+import com.z.ngxcfg.support.CfgServiceImpl;
 import com.z.ngxcfg.upstream.NgxServerCfg;
 import com.z.ngxcfg.upstream.NgxUpStreamCfg;
 
@@ -20,11 +20,11 @@ import com.z.ngxcfg.upstream.NgxUpStreamCfg;
  */
 public class NginxCfgServiceImplTest {
 
-    static NgxCfgServiceImpl ngs;
+    static CfgServiceImpl ngs;
 
     @BeforeClass
     public static void init() {
-        ngs = new NgxCfgServiceImpl();
+        ngs = new CfgServiceImpl();
         ngs.setFilePath("C:/Users/Administrator/Desktop/nginx-1.10.3/");
     }
 

@@ -8,7 +8,7 @@
 - LUA脚本
 - 采用nginx plus
 
-但是这两个要求对于我来说，都不可行，所以只能自造轮子。该轮子主要是为了解决项目[https://github.com/zhuzhong/gateway-dubbox.git](https://github.com/zhuzhong/gateway-dubbox.git)的负载均衡及动态扩缩问题。
+但是这两个要求对于我来说，都不可行，所以只能自造轮子。该轮子主要是为了解决项目[gateway-dubbox](https://github.com/zhuzhong/gateway-dubbox.git)的负载均衡及动态扩缩问题。
 
 
 ##设计思路
@@ -29,7 +29,7 @@
 	- location部分
 	- 这两部分以include的形式引入nginx的主配置文件
   
-2. 让nginx重新加载新的配置文件
+2. 调用shell脚本，nginx重新加载配置文件
 
 
 

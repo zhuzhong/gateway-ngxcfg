@@ -17,10 +17,8 @@ public interface ServerMonitorService {
      *  2.根据动态的server内容生成nginx 配置文件；
      *  
      *  3.执行 nginx -s reload命令，使nginx 重新加载配置文件
-     */
-    
-    
-    public void  serverDynamicExpansion();  //后端服务的动态扩缩
+     */   
+    public void  serverUrlListener();  //后端服务的动态扩缩
     
     
 }
