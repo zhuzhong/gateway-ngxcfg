@@ -49,8 +49,9 @@ public class DefaultNgxServiceImpl implements NgxService {
 
 			// 设置upstream
 			NgxUpStreamCfg n = new NgxUpStreamCfg();
-			n.setName(context);
+			
 			if (ngxUpStreamCfgs.get(context) == null) {
+				n.setName(context);
 				ngxUpStreamCfgs.put(context, n);
 			} else {
 				n = ngxUpStreamCfgs.get(context);

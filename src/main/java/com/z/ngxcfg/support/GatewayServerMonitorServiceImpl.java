@@ -17,7 +17,7 @@ import com.z.ngxcfg.ServerMonitorService;
  * @author Administrator
  * 
  */
-public class ServerMonitorServiceImpl implements ServerMonitorService {
+public class GatewayServerMonitorServiceImpl implements ServerMonitorService {
 
     private String rootPath;
 
@@ -26,7 +26,7 @@ public class ServerMonitorServiceImpl implements ServerMonitorService {
 
     private static final String GATEWAY = "/provider";
 
-    private static final Logger logger = LoggerFactory.getLogger(ServerMonitorServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(GatewayServerMonitorServiceImpl.class);
     /*
      * private String context;
      * 
