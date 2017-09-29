@@ -16,7 +16,7 @@
 	<context:property-placeholder location="classpath*:config/config.properties" />
 
 
-	<bean class="com.z.ngxcfg.support.ServerMonitorServiceImpl" init-method="init">
+	<bean class="com.z.ngxcfg.support.RestfulServerMonitorServiceImpl" init-method="init">
 		<property name="rootPath" value="${virtual.zk.rootpath}"></property>
 		<property name="zkServers" value="${virtual.zk.zkservers}"></property>
 
@@ -25,13 +25,13 @@
 	</bean>
 
 
-	<bean id="ngxService" class="com.z.ngxcfg.support.NgxServiceImpl">
-		<property name="ngxCfgService" ref="ngxCfgService"></property>
+	<bean id="ngxService" class="com.z.ngxcfg.support.DefaultNgxServiceImpl">
+		<property name="cfgService" ref="cfgService"></property>
 		<property name="shellPath" value="${cfg.shellFile}"></property>
 	</bean>
 
 
-	<bean id="ngxCfgService" class="com.z.ngxcfg.support.NgxCfgServiceImpl">
+	<bean id="cfgService" class="com.z.ngxcfg.support.CfgServiceImpl">
 		<property name="filePath" value="${cfg.filePath}"></property>
 	</bean>
 </beans>

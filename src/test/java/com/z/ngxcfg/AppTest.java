@@ -5,27 +5,32 @@ package com.z.ngxcfg;
 
 import java.io.IOException;
 
+import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * @author Administrator
  *
  */
-public class App {
+public class AppTest {
 
     /**
      * @param args
      */
-    public static void main(String[] args) {
+	@Test
+    public void test(){
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
 
         context.start();
 
+        
+        System.out.println("ooook");
         try {
             System.in.read();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            
             e.printStackTrace();
+            context.close();
         }
 
     }

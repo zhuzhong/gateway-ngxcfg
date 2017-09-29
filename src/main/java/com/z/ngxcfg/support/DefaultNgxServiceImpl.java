@@ -20,10 +20,10 @@ import com.z.ngxcfg.upstream.NgxUpStreamCfg;
  */
 public class DefaultNgxServiceImpl implements NgxService {
 
-	private ConfigService ngxCfgService;
+	private ConfigService cfgService;
 
-	public void setNgxCfgService(ConfigService ngxCfgService) {
-		this.ngxCfgService = ngxCfgService;
+	public void setCfgService(ConfigService ngxCfgService) {
+		this.cfgService = ngxCfgService;
 	}
 
 	@Override
@@ -70,8 +70,8 @@ public class DefaultNgxServiceImpl implements NgxService {
 		}
 		// 生成配置文件
 		try {
-			ngxCfgService.writeLocationsCfg(locationContexts);
-			ngxCfgService.writeUpStreamCfg(list);
+			cfgService.writeLocationsCfg(locationContexts);
+			cfgService.writeUpStreamCfg(list);
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -88,7 +88,10 @@ public class DefaultNgxServiceImpl implements NgxService {
 
 	@Override
 	public void reloadNgxCfg() {
-
+		
+		/*
+		 * 这里执行会有权限的问题，需要解决
+		 */
 		Process process = null;
 		try {
 			process = Runtime.getRuntime().exec(shellPath);
@@ -97,7 +100,6 @@ public class DefaultNgxServiceImpl implements NgxService {
 			e.printStackTrace();
 
 		}
-
 	}
 
 }

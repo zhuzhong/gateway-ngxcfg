@@ -13,7 +13,7 @@ import java.util.List;
 public interface NgxService {
 
     /**
-     *  更新nginx 配置问件
+     *  重新生成nginx 配置文件
      * @param servers
      */
     public void rewriteCfg(List<String> servers);

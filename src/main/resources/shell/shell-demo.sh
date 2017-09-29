@@ -1,2 +1,4 @@
 #!/bin/bash
-	/opt/test/nginx -s reload
+	
+	/usr/local/nginx/sbin/nginx -s reload
+	

@@ -5,6 +5,7 @@ package com.z.ngxcfg.upstream;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ https://nginx.org/en/docs/http/ngx_http_upstream_module.html
  * @author Administrator
  *
  */
-public class NgxUpStreamCfg implements Serializable {
+public class NgxUpStreamCfg implements Serializable,Comparable<NgxUpStreamCfg> {
 
     
     
@@ -29,6 +30,7 @@ public class NgxUpStreamCfg implements Serializable {
 
     @Override
     public String toString(){
+    		Collections.sort(servers);
         StringBuilder sb=new StringBuilder("upstream ");
         sb.append(name);
         sb.append(UPSTREAM_SUFFIX);
@@ -129,6 +131,14 @@ public class NgxUpStreamCfg implements Serializable {
     public String getName() {
         return name;
     }
+
+
+
+	@Override
+	public int compareTo(NgxUpStreamCfg o) {
+		// TODO Auto-generated method stub
+		return this.name.compareTo(o.name);
+	}
 
 
 

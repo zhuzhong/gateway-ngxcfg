@@ -7,7 +7,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.I0Itec.zkclient.IZkChildListener;
 import org.I0Itec.zkclient.ZkClient;
@@ -17,7 +16,9 @@ import org.slf4j.LoggerFactory;
 import com.z.ngxcfg.NgxService;
 import com.z.ngxcfg.ServerMonitorService;
 
-/**直接获取dubbox提供的restful生成nginx的配置文件
+/**
+ * 直接获取dubbox提供的restful生成nginx的配置文件
+ * 
  * @author sunff
  *
  */
@@ -26,6 +27,12 @@ public class RestfulServerMonitorServiceImpl implements ServerMonitorService {
 	private String rootPath;
 
 	private String zkServers;
+
+	private NgxService ngxService;
+
+	public void setNgxService(NgxService ngxService) {
+		this.ngxService = ngxService;
+	}
 
 	public void setRootPath(String rootPath) {
 		this.rootPath = rootPath;
@@ -62,9 +69,10 @@ public class RestfulServerMonitorServiceImpl implements ServerMonitorService {
 	private ZkClient zkClient;
 
 	private void runaway(final ZkClient zkClient, final String path) {
-		List<String> restfulserver=new ArrayList<String>();
+		List<String> restfulserver = new ArrayList<String>();
 		zkClient.unsubscribeAll();
-		//ConcurrentHashMap<String, List<String>> newHosts = new ConcurrentHashMap<String, List<String>>();
+		// ConcurrentHashMap<String, List<String>> newHosts = new
+		// ConcurrentHashMap<String, List<String>>();
 		zkClient.subscribeChildChanges(path, new IZkChildListener() {
 
 			public void handleChildChange(String parentPath, List<String> currentChilds) throws Exception {
@@ -134,9 +142,10 @@ public class RestfulServerMonitorServiceImpl implements ServerMonitorService {
 										ServiceProvider sp = new ServiceProvider(thirdChild);
 										String contextPath = sp.getContextPath();
 										String host = sp.getHost();
-										
-										String server=host+"#"+contextPath;
-										restfulserver.add(server);
+
+										String server = host + "#" + contextPath;
+										if (!restfulserver.contains(server))
+											restfulserver.add(server);
 									}
 								}
 							}
@@ -150,21 +159,16 @@ public class RestfulServerMonitorServiceImpl implements ServerMonitorService {
 		restartNgx(restfulserver);
 	}
 
-	
-	 private NgxService ngxService;
-	  public void setNgxService(NgxService ngxService) {
-	        this.ngxService = ngxService;
-	    }
-	  /**
-     * 这里重启ngx,其实主要作的：重新生成新的配置文件，并加载新的配置文件
-     * @param serverUrls
-     */
-    private void restartNgx(List<String> serverUrls) {
-        ngxService.rewriteCfg(serverUrls);
-        ngxService.reloadNgxCfg();
-    }
-    
-    
+	/**
+	 * 这里重启ngx,其实主要作的：重新生成新的配置文件，并加载新的配置文件
+	 * 
+	 * @param serverUrls
+	 */
+	private void restartNgx(List<String> serverUrls) {
+		ngxService.rewriteCfg(serverUrls);
+		 ngxService.reloadNgxCfg();
+	}
+
 	private static class ServiceProvider {
 
 		private String host;

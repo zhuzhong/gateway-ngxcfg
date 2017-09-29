@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author Administrator
  *
  */
-public class NgxServerCfg implements Serializable {
+public class NgxServerCfg implements Serializable,Comparable<NgxServerCfg> {
 
     /**
      * 
@@ -168,5 +168,11 @@ public class NgxServerCfg implements Serializable {
     public void setSlowStart(Integer slowStart) {
         this.slowStart = slowStart;
     }
+
+	@Override
+	public int compareTo(NgxServerCfg o) {
+		// TODO Auto-generated method stub
+		return this.address.compareTo(o.address);
+	}
 
 }
