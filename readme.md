@@ -1,7 +1,7 @@
-#gateway-ngxcfg
+# gateway-ngxcfg
 
 
-##目的
+## 目的
 
 使用nginx作为反向代理的后端服务器，只能通过手动进行扩缩，无法动态扩缩。为了解决这个问题，可以采用
 
@@ -11,7 +11,7 @@
 但是这两个要求对于我来说，都不可行，所以只能自造轮子。该轮子主要是为了解决项目[gateway-dubbox](https://github.com/zhuzhong/gateway-dubbox.git)的负载均衡及动态扩缩问题。
 
 
-##设计思路
+## 设计思路
 
 设计思路主要参考 [http://blog.csdn.net/akin_zhou/article/details/50373414](http://blog.csdn.net/akin_zhou/article/details/50373414)
 
